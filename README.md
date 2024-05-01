@@ -6,6 +6,7 @@ v0.1.0
 ![GitHub](https://img.shields.io/github/license/sertemo/EarthQuakeLocator)
 
 ## Descripción
+Pequeña aplicación para mostrar todos los terremotos del planeta en un lapso de 2 días desde la fecha actual.
 
 ## Empezando
 

@@ -1,5 +1,5 @@
 # EarthQuakeLocator
-## 0.1.0
+### v0.1.0
 
 ![Tests](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-blue.svg?logo=dependabot)

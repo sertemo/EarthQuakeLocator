@@ -29,6 +29,7 @@ requests-mock = "^1.12.1"
 streamlit = "^1.34.0"
 pytest-mock = "^3.14.0"
 pandas = "^2.2.2"
+plotly-express = "^0.4.1"
 
 [build-system]
 requires = ["poetry-core"]

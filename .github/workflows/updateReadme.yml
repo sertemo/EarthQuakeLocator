@@ -1,12 +1,11 @@
-name: UpdateReadme
+name: Update README on Version Change
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
+    paths:
+      - 'pyproject.toml'  # Solo cuando haya cambias aqui
 
 jobs:
   update_version:
@@ -30,5 +29,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README.md
-          git diff-index --quiet HEAD || git commit -m "Update README version"
+          git commit -m "Update README version" || echo "No changes to commit"
           git push

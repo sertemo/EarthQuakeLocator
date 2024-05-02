@@ -2,86 +2,85 @@
 
 from datetime import datetime
 from datetime import timedelta
-from typing import Any
 
+import pandas as pd
 import plotly.express as pe
-import requests
 import streamlit as st
-from streamlit_plotly_events import plotly_events
 
-starttime = (datetime.now() - timedelta(days=2)).strftime("%Y-%m-%d")
-endtime = datetime.strftime(datetime.today(), "%Y-%m-%d")
-URL_BASE = "https://earthquake.usgs.gov/fdsnws/event/1/"
-query = f"query?format=geojson&starttime={starttime}&endtime={endtime}"
-URL = URL_BASE + query
+from earthquakelocator.request import make_request
 
 
-@st.cache_data(show_spinner=False)
-def make_request(url: str) -> Any | None:
-    """Lanza la request y devuelve una respuesta
-    en formato json
+class EarthquakeApp:
+    def __init__(self) -> None:
+        self.starttime = (datetime.now() - timedelta(days=2)).strftime("%Y-%m-%d")
+        self.starttime_title = (datetime.now() - timedelta(days=2)).strftime("%d/%m/%Y")
+        self.endtime = datetime.strftime(datetime.today(), "%Y-%m-%d")
+        self.endtime_title = datetime.strftime(datetime.today(), "%d/%m/%Y")
+        self.URL_BASE = "https://earthquake.usgs.gov/fdsnws/event/1/"
+        self.query = (
+            f"query?format=geojson&starttime={self.starttime}&endtime={self.endtime}"
+        )
+        self.URL = self.URL_BASE + self.query
 
-    Parameters
-    ----------
-    url : str
-        _description_
+    def main(self) -> None:
+        # Configuración de la app
+        st.set_page_config(
+            page_title="EarthQuake Locator",
+            page_icon="🌎",
+            layout="centered",
+            initial_sidebar_state="auto",
+        )
+        st.title("EarthQuake Locator")
+        st.subheader(
+            "Muestra un mapa interactivo con todos los terremotos ocurridos\
+                    en los últimos 2 días"
+        )
 
-    Returns
-    -------
-    requests.Response
-        _description_
-    """
-    response = requests.get(url)
+        self.data = make_request(self.URL)
+        if self.data is None:
+            st.error("Se ha producido un error al lanzar la petición.")
+            st.stop()
 
-    if response.status_code != 200:
-        print(response)
-        print(response.status_code)
-        return None
+        terremotos_dict = self.data["features"]
+        terremotos_cantidad = len(terremotos_dict)
+        self.df = pd.DataFrame(
+            {
+                "title": [d["properties"]["title"] for d in terremotos_dict],
+                "magnitude": [max(0, d["properties"]["mag"]) for d in terremotos_dict],
+                "longitude": [d["geometry"]["coordinates"][0] for d in terremotos_dict],
+                "latitude": [d["geometry"]["coordinates"][1] for d in terremotos_dict],
+                "depth": [d["geometry"]["coordinates"][2] for d in terremotos_dict],
+            }
+        )
 
-    return response.json()
+        self.fig = pe.scatter_geo(
+            self.df,
+            lat="latitude",
+            lon="longitude",
+            hover_name="title",
+            size="magnitude",
+            size_max=10,
+            opacity=0.7,
+            projection="natural earth",
+            color="magnitude",
+            color_continuous_scale="ylorrd",
+            title=f"{terremotos_cantidad} Terremotos producidos entre {self.starttime_title} y {self.endtime_title}",
+            hover_data={"magnitude": ":.2f", "depth": ":.2f km"},
+        )
+        self.fig.update_layout(
+            width=1000,  # Ancho del gráfico en píxeles
+            height=600,
+            hoverlabel=dict(
+                bgcolor="#fee691",
+                font_size=16,
+                font_family="Rockwell",
+                font_color="black",
+            ),
+        )
 
-
-def main() -> None:
-    # Configuración de la app
-    st.set_page_config(
-        page_title="EarthQuake Locator",
-        page_icon="🌎",
-        layout="wide",
-        initial_sidebar_state="auto",
-    )
-    st.title("EarthQuake Locator")
-    st.subheader(
-        "Muestra en un mapamundi todos los terremotos ocurridos\
-                en los últimos 2 días"
-    )
-
-    data = make_request(URL)
-    if data is None:
-        st.error("Se ha producido un error al lanzar la petición.")
-        st.stop()
-
-    terremotos_dict = data["features"]
-    terremotos_cantidad = len(terremotos_dict)
-    terremotos_title = [d["properties"]["title"] for d in terremotos_dict]
-    terremotos_mag = [max(0, d["properties"]["mag"]) for d in terremotos_dict]
-    terremotos_long = [d["geometry"]["coordinates"][0] for d in terremotos_dict]
-    terremotos_lat = [d["geometry"]["coordinates"][1] for d in terremotos_dict]
-
-    fig = pe.scatter_geo(
-        lat=terremotos_lat,
-        lon=terremotos_long,
-        # text=terremotos_title,
-        hover_name=terremotos_title,
-        size=terremotos_mag,
-        size_max=10,
-        opacity=0.7,
-        projection="natural earth",
-        color_continuous_scale="ylorrd",  # TODO queda aplicar este color a los puntos
-        title=f"{terremotos_cantidad} Terremotos mundiales entre {starttime} y {endtime}",
-    )
-
-    plotly_events(fig, click_event=True)
+        st.plotly_chart(self.fig, use_container_width=True)
 
 
 if __name__ == "__main__":
-    main()
+    app = EarthquakeApp()
+    app.main()

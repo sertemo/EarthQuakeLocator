@@ -12,9 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import datetime, timedelta
+
 import pytest
 
 
 @pytest.fixture(scope="session")
-def mi_fixture():
-    raise NotImplementedError()
+def today_url():
+    starttime = (datetime.now() - timedelta(days=2)).strftime("%Y-%m-%d")
+    endtime = datetime.strftime(datetime.today(), "%Y-%m-%d")
+    URL_BASE = "https://earthquake.usgs.gov/fdsnws/event/1/"
+    query = f"query?format=geojson&starttime={starttime}&endtime={endtime}"
+    URL = URL_BASE + query
+    return URL

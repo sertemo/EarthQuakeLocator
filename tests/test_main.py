@@ -12,6 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import datetime, timedelta
 
-def test_example():
-    assert True
+
+from earthquakelocator.app import EarthquakeApp
+
+
+def test_url_construction():
+    app = EarthquakeApp()
+    expected_start = (datetime.now() - timedelta(days=2)).strftime("%Y-%m-%d")
+    expected_end = datetime.now().strftime("%Y-%m-%d")
+    expected_url = f"https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime={expected_start}&endtime={expected_end}"
+    assert  app.URL == expected_url
+
+

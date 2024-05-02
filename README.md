@@ -8,7 +8,9 @@
 ## Descripción
 Pequeña aplicación para mostrar todos los terremotos del planeta en un lapso de 2 días desde la fecha actual.
 
-## Tests
+Datos extraidos de la API de [USGS](https://earthquake.usgs.gov/fdsnws/event/1/)
+
+![alt text](assets/earthquakelocator_image.JPG)
 
 ## Construido Con
 - plotly express

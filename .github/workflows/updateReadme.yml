@@ -5,11 +5,16 @@ on:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
   update_version:
+    runs-on: ubuntu-latest  # Especifica en qué ambiente se ejecuta el job.
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true  # Asegúrate de que las credenciales persistan para el push.
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -25,5 +30,5 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README.md
-          git commit -m "Update README version" || echo "No changes to commit"
+          git diff-index --quiet HEAD || git commit -m "Update README version"
           git push

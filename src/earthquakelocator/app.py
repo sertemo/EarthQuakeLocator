@@ -7,7 +7,7 @@ import pandas as pd
 import plotly.express as pe
 import streamlit as st
 
-from earthquakelocator.request import make_request
+from src.earthquakelocator.request import make_request
 
 
 class EarthquakeApp:

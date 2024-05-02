@@ -2,6 +2,10 @@
 ## 0.1.0
 
 ![Tests](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg)
+![Black](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=black)
+![MyPy](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=mypy)
+![Flake8](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=flake8)
+![Pytest](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=pytest)
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-blue.svg?logo=dependabot)
 ![GitHub](https://img.shields.io/github/license/sertemo/EarthQuakeLocator)
 

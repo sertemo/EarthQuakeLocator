@@ -15,7 +15,7 @@
 from datetime import datetime, timedelta
 
 
-from earthquakelocator.app import EarthquakeApp
+from src.earthquakelocator.app import EarthquakeApp
 
 
 def test_url_construction():

@@ -54,3 +54,4 @@ addopts = "--cov=earthquakelocator"
 testpaths = [
    "tests",
 ]
+pythonpath = ["src"]

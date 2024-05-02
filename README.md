@@ -6,31 +6,18 @@
 ![MyPy](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=mypy)
 ![Flake8](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=flake8)
 ![Pytest](https://github.com/sertemo/EarthQuakeLocator/actions/workflows/tests.yml/badge.svg?branch=main&event=push&job=pytest)
+
 ![Dependabot](https://img.shields.io/badge/dependabot-enabled-blue.svg?logo=dependabot)
 ![GitHub](https://img.shields.io/github/license/sertemo/EarthQuakeLocator)
 
 ## Descripción
 Pequeña aplicación para mostrar todos los terremotos del planeta en un lapso de 2 días desde la fecha actual.
 
-## Empezando
-
-### Pre-requisitos
-
-### Instalación
-
-## Uso
-
-## Desarrollo
-
-### Código de Conducta
-
-### Proceso de Pull Request
-
 ## Tests
 
 ## Construido Con
-
-## Contribuyentes
+- plotly express
+- streamlit
 
 ## Licencia
 Copyright 2024 Sergio Tejedor Moreno

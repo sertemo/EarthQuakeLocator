@@ -14,7 +14,7 @@ def update_readme():
         readme_contents = file.readlines()
 
     # La versión está en la segunda fila
-    readme_contents[1] = f"## Version: {project_version}\n"
+    readme_contents[1] = f"### v{project_version}\n"
 
     # Escribir el contenido actualizado de nuevo a README.md
     with open("README.md", "w") as file:
